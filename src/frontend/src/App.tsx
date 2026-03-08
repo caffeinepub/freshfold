@@ -51,6 +51,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SiWhatsapp } from "react-icons/si";
 import { ServiceType } from "./backend.d";
+import { MapPickerDialog } from "./components/MapPickerDialog";
 import { useActor } from "./hooks/useActor";
 
 // ─── Scroll Reveal Hook ──────────────────────────────────────
@@ -161,6 +162,7 @@ export default function App() {
   const [submitError, setSubmitError] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [bookingId, setBookingId] = useState<bigint | null>(null);
+  const [mapPickerOpen, setMapPickerOpen] = useState(false);
 
   // Nav scroll effect
   useEffect(() => {
@@ -226,6 +228,14 @@ export default function App() {
       );
       setBookingId(id);
       setConfirmOpen(true);
+
+      // Send instant WhatsApp notification to owner with all booking details
+      const serviceLabel = serviceLabels[bookingService] ?? bookingService;
+      const notifyMsg = encodeURIComponent(
+        `🧺 *New FreshFold Booking!*\n\n*Booking ID:* #${id}\n*Name:* ${bookingName.trim()}\n*Phone:* ${bookingPhone.trim()}\n*Address:* ${bookingAddress.trim()}\n*Pickup Date:* ${bookingDate}\n*Service:* ${serviceLabel}\n*No. of Clothes:* ${clothesCount}`,
+      );
+      window.open(`https://wa.me/919613206589?text=${notifyMsg}`, "_blank");
+
       // Reset form
       setBookingName("");
       setBookingPhone("");
@@ -960,6 +970,15 @@ export default function App() {
                     rows={3}
                     className="rounded-xl border-border focus-visible:ring-emerald resize-none"
                   />
+                  <button
+                    type="button"
+                    data-ocid="booking.map_marker"
+                    onClick={() => setMapPickerOpen(true)}
+                    className="flex items-center gap-1.5 text-xs font-semibold text-emerald-dark hover:text-emerald transition-colors py-1 px-2 rounded-lg hover:bg-emerald/10"
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                    Or pick on map
+                  </button>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-5">
@@ -1364,6 +1383,13 @@ export default function App() {
       >
         <SiWhatsapp className="w-7 h-7" />
       </a>
+
+      {/* ─── Map Picker Dialog ────────────────────────────────── */}
+      <MapPickerDialog
+        open={mapPickerOpen}
+        onOpenChange={setMapPickerOpen}
+        onConfirm={(address) => setBookingAddress(address)}
+      />
 
       {/* ─── Booking Confirmation Dialog ──────────────────────── */}
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
