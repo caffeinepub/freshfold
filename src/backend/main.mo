@@ -26,9 +26,8 @@ actor {
     timestamp : Int;
   };
 
-  var nextBookingId = 0;
-
-  let bookingsMap = Map.empty<Nat, Booking>();
+  stable var nextBookingId : Nat = 0;
+  stable var bookingsMap = Map.empty<Nat, Booking>();
 
   public shared ({ caller }) func submitBooking(
     name : Text,

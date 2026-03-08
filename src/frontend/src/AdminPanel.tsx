@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
 import {
   AlertCircle,
   ArrowLeft,
@@ -129,14 +128,14 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
   return (
     <div className="min-h-screen admin-login-bg flex items-center justify-center px-4">
       {/* Back link */}
-      <Link
-        to="/"
+      <a
+        href="/"
         data-ocid="admin.back_link"
         className="fixed top-6 left-6 flex items-center gap-1.5 text-white/70 hover:text-white text-sm font-medium transition-colors group"
       >
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
         Back to site
-      </Link>
+      </a>
 
       <div className={`w-full max-w-sm ${isShaking ? "animate-shake" : ""}`}>
         {/* Logo */}
@@ -293,14 +292,14 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <Link
-              to="/"
+            <a
+              href="/"
               data-ocid="admin.back_link"
               className="hidden sm:flex items-center gap-1.5 text-white/60 hover:text-white text-sm font-medium transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               Back to site
-            </Link>
+            </a>
             <Button
               data-ocid="admin.logout_button"
               variant="outline"
@@ -413,7 +412,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 <p className="text-sm text-muted-foreground max-w-xs mx-auto">
                   When customers submit bookings, they'll appear here.
                 </p>
-                <Link to="/" className="inline-block mt-4">
+                <a href="/" className="inline-block mt-4">
                   <Button
                     variant="outline"
                     size="sm"
@@ -421,7 +420,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                   >
                     View site
                   </Button>
-                </Link>
+                </a>
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -437,7 +436,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                       <TableHead className="text-navy font-bold py-3">
                         Phone
                       </TableHead>
-                      <TableHead className="text-navy font-bold py-3 hidden lg:table-cell">
+                      <TableHead className="text-navy font-bold py-3">
                         Address
                       </TableHead>
                       <TableHead className="text-navy font-bold py-3">
@@ -481,7 +480,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                               {booking.phone}
                             </a>
                           </TableCell>
-                          <TableCell className="py-4 hidden lg:table-cell">
+                          <TableCell className="py-4">
                             <span
                               className="text-muted-foreground text-sm max-w-[200px] block truncate"
                               title={booking.address}
